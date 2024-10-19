@@ -1,8 +1,4 @@
 # Data-Altrusist-Team-167
-Here’s a README file based on the flowchart from your project:
-
----
-
 # MedNewsModel - Fake News Healthcare Detection
 
 **MedNewsModel** is a machine learning-based web application aimed at detecting fake news in the healthcare domain, specifically focusing on topics such as medical News and other medical information. The project involves preprocessing healthcare datasets, building and training machine learning models, and integrating these models with a web interface for real-time predictions.
