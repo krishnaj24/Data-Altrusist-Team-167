@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Fake Healthcare News Detection</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Google Fonts for better typography -->
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap" rel="stylesheet">
+<!-- Bootstrap CSS & JS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<!-- Font Awesome Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<!-- Custom Styling -->
+<style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #c8f8f4;
+    }
+    /* Styling for the navigation and header */
+    .menu {
+      display: flex;
+      background-color: #21aca1;
+      height: 190px;
+      align-items: center;
+      justify-content: center;
+      padding: 0 20px;
+      border-bottom: 2px solid #18a396;
+    }
+    .heading {
+      font-size: 60px;
+      color: white;
+      text-align: center;
+      font-family: 'Lora', serif;
+    }
+    /* Main content container */
+    .container {
+      padding-top: 50px;
+    }
+    /* Form styling */
+    .form-container {
+      text-align: center;
+      margin-bottom: 30px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      background-color: white;
+      border-radius: 10px;
+      border: 1px solid #dcdcdc;
+    }
+    .form-container h2 {
+      font-size: 30px;
+      margin-bottom: 20px;
+      font-family: 'Lora', serif;
+      color: #21aca1;
+    }
+    .news-input {
+      width: 100%;
+      max-width: 600px;
+      height: 150px;
+      padding: 15px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      outline: none;
+      transition: border 0.3s ease-in-out;
+    }
+    .news-input:focus {
+      border-color: #21aca1;
+    }
+    .btn-submit {
+      background: linear-gradient(to right, #6fc5bd, #24aca4);
+      color: white;
+      padding: 15px 25px;
+      font-size: 18px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    }
+    .btn-submit:hover {
+      transform: scale(1.05);
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+      background: linear-gradient(to right, #24aca4, #6fc5bd);
+    }
+    /* Styling for the result message */
+    #resultContainer {
+      text-align: center;
+      max-width: 600px;
+      margin: 30px auto;
+      padding: 20px;
+      background-color: white;
+      box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      border: 1px solid #dcdcdc;
+    }
+    .result-message {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    .result-message.real {
+      color: green;
+    }
+    .result-message.fake {
+      color: red;
+    }
+    .detailed-message {
+      font-size: 18px;
+      margin-top: 10px;
+      color: #555;
+    }
+    /* Styling for the feedback buttons */
+    #feedbackContainer {
+      display: none;
+      text-align: center;
+      margin-top: 20px;
+    }
+    #feedbackContainer p {
+      font-size: 18px;
+      margin-bottom: 15px;
+    }
+    .btn-feedback {
+      font-size: 24px;
+      padding: 10px 15px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+    .btn-feedback:hover {
+      transform: scale(1.1);
+      color: #18a396;
+    }
+    .btn-feedback:active {
+      color: #007bff;
+    }
+    /* Styling for the footer */
+    .footer {
+      background-color: #21aca1;
+      padding: 30px 20px;
+      color: white;
+      text-align: center;
+      position: relative;
+      bottom: 0;
+      width: 100%;
+    }
+    .footer img {
+      margin-bottom: 15px;
+    }
+    .footer a {
+      color: white;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+    .footer a:hover {
+      text-decoration: underline;
+    }
+    @media (max-width: 640px) {
+      .menu {
+        flex-direction: column;
+      }
+      .heading {
+        font-size: 40px;
+      }
+      .form-container h2 {
+        font-size: 25px;
+      }
+      .news-input {
+        width: 90%;
+      }
+    }
+</style>
+</head>
+<body>
+<!-- Navigation Header -->
+<div class="menu">
+<img src="Midnight Blue Pastel Green Finance Techy Topography Zoom Events Logo (4).png" alt="Logo" height="150px" width="200px">
+<p class="heading">MedNews Model</p>
+</div>
+<!-- Main Content -->
+<div class="container">
+<div class="form-container">
+<h2>Check if your Healthcare News is Real or Fake</h2>
+<textarea class="news-input" id="newsInput" placeholder="Paste the news article here..."></textarea><br>
+<button class="btn-submit" id="submitButton">Check News</button>
+</div>
+<!-- Div to display result below the form -->
+<div id="resultContainer"  placeholder="Result will be displayed here"></div> 
+<!-- Feedback Section -->
+<div id="feedbackContainer">
+<p>Was this result helpful?</p>
+<button id="thumbsUp" class="btn-feedback">
+</button>
+<button id="thumbsDown" class="btn-feedback">
+</button>
+</div>
+</div>
+<!-- Footer Section -->
+<div class="footer">
+<img src="Midnight Blue Pastel Green Finance Techy Topography Zoom Events Logo (4).png" height="70px" width="90px">
+<p>&copy; 2024 Fake Healthcare News Detection. All rights reserved.</p>
+<p><a href="/terms" target="_blank">Terms and Conditions</a> | <a href="/privacy" target="_blank">Privacy Policy</a></p>
+</div>
+<!-- JavaScript for Functionality -->
+<script>
+    document.getElementById('submitButton').addEventListener('click', function () {
+      var newsContent = document.getElementById('newsInput').value;
+      var resultContainer = document.getElementById('resultContainer');
+      var feedbackContainer = document.getElementById('feedbackContainer');
+      // Clear previous result
+      resultContainer.innerHTML = '';
+      if (newsContent.trim() === '') {
+        alert("Please enter a news article.");
+        return;
+      }
+      // Fake detection logic (placeholder)
+      var isFake = Math.random() > 0.5;  // Randomly assign fake/real for now.
+      // Display the result message
+      var resultMessage = document.createElement('p');
+      resultMessage.className = 'result-message';
+      if (isFake) {
+        resultMessage.textContent = "The news article is likely FAKE!";
+        resultMessage.classList.add('fake');
+        resultContainer.appendChild(resultMessage);
+        // Detailed explanation
+        var detailedMessage = document.createElement('p');
+        detailedMessage.className = 'detailed-message';
+        detailedMessage.textContent = "This news seems to contain misinformation or fake data.";
+        resultContainer.appendChild(detailedMessage);
+        // Display FALSE result
+        var resultStatus = document.createElement('p');
+        resultStatus.textContent = "Result: FALSE";
+        resultContainer.appendChild(resultStatus);
+      } else {
+        resultMessage.textContent = "The news article appears to be REAL!";
+        resultMessage.classList.add('real');
+        resultContainer.appendChild(resultMessage);
+        // Detailed explanation
+        var detailedMessage = document.createElement('p');
+        detailedMessage.className = 'detailed-message';
+        detailedMessage.textContent = "The article appears credible. No signs of misinformation detected.";
+        resultContainer.appendChild(detailedMessage);
+        // Display TRUE result
+        var resultStatus = document.createElement('p');
+        resultStatus.textContent = "Result: TRUE";
+        resultContainer.appendChild(resultStatus);
+      }
+      // Show feedback buttons
+      feedbackContainer.style.display = 'block';
+    });
+    // Feedback button actions
+    document.getElementById('thumbsUp').addEventListener('click', function () {
+      alert('Thank you for your feedback! ');
+    });
+    document.getElementById('thumbsDown').addEventListener('click', function () {
+      alert('Thank you for your feedback!');
+    });
+</script>
+</body>
+</html>
